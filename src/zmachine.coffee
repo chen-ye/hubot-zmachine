@@ -25,6 +25,7 @@
 String::startsWith ?= (s) -> @[...s.length] is s
 
 module.exports = (robot) ->
+  
   unless process.env.HUBOT_ZMACHINE_SERVER
     robot.logger.error "HUBOT_ZMACHINE_SERVER not defined, cannot play zmachine!"
     return
@@ -44,6 +45,9 @@ module.exports = (robot) ->
 
   zmachinePids = {}
   initialized = false
+  
+  add_room = (msg) ->
+    zmachineRooms.push msg.message.user.room
 
   get_key = (msg) ->
     if msg.message.user.room?
@@ -224,6 +228,9 @@ module.exports = (robot) ->
         # Try whatever game the user specified
         name = actionList[1]
       restore_game msg, name
+    else if action == "add room"
+      # End the game
+      add_room msg
     else
       # Not a special command, so Just zmachine It
       do_action msg, action
