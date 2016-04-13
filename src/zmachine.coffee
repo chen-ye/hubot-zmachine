@@ -47,7 +47,9 @@ module.exports = (robot) ->
   initialized = false
   
   add_room = (msg) ->
-    zmachineRooms.push msg.message.user.room
+    if msg.message.user.room?
+      unless msg.message.user.room in zmachineRooms
+        zmachineRooms.push msg.message.user.room
 
   get_key = (msg) ->
     if msg.message.user.room?
@@ -228,8 +230,8 @@ module.exports = (robot) ->
         # Try whatever game the user specified
         name = actionList[1]
       restore_game msg, name
-    else if action == "add room"
-      # End the game
+    else if action == "immersive"
+      # Toggle responding to everything
       add_room msg
     else
       # Not a special command, so Just zmachine It
