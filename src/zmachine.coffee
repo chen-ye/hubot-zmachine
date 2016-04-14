@@ -84,9 +84,9 @@ module.exports = (robot) ->
           bodyJ = JSON.parse(body)
           if callback?
             callback msg, args
-            robot.logger.debug "Initialized: #{body}"
+            robot.logger.debug "Available: #{body}"
           else
-            msg.send "Initialized: #{body}"
+            msg.send "Available: #{body}"
 
   purge_list = (msg) ->
     zmachinePids = {}
