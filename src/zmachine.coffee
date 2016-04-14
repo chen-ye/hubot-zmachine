@@ -233,6 +233,8 @@ module.exports = (robot) ->
     else if action == "immersive"
       # Toggle responding to everything
       add_room msg
+    else if action == "[space]"
+      do_action msg, " "
     else
       # Not a special command, so Just zmachine It
       do_action msg, action
