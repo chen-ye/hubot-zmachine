@@ -73,6 +73,20 @@ module.exports = (robot) ->
             robot.logger.debug "Initialized: #{body}"
           else
             msg.send "Initialized: #{body}"
+            
+  list_available = (msg, callback, args) ->
+    msg.http("#{server}/available")
+      .get() (err, res, body) ->
+        if err
+          msg.send "Error: #{err}"
+          return
+        else
+          bodyJ = JSON.parse(body)
+          if callback?
+            callback msg, args
+            robot.logger.debug "Initialized: #{body}"
+          else
+            msg.send "Initialized: #{body}"
 
   purge_list = (msg) ->
     zmachinePids = {}
@@ -211,6 +225,8 @@ module.exports = (robot) ->
     else if action == "list"
       # List all in-progress games on the server (and sync with them)
       list_games msg
+    else if action == "list available"
+      list_available msg
     else if action == "purge"
       # Forget all in-progress games; use when you need to re-sync with the server
       purge_list msg
